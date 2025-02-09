@@ -1,7 +1,7 @@
 from typing import Optional
 
 import httpx
-from sqlalchemy import select, desc, func
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from temperature import models, schemas
@@ -10,7 +10,9 @@ WEATHER_API_URL = "http://api.weatherapi.com/v1/current.json"
 API_KEY = "d0eae92abc5b4efaa76144848242007"
 
 
-async def get_temperature_list(db: AsyncSession, city_id: Optional[int] = None) -> list[schemas.Temperature]:
+async def get_temperature_list(
+    db: AsyncSession, city_id: Optional[int] = None
+) -> list[schemas.Temperature]:
     query = select(models.DBTemperature)
     if city_id:
         query = query.where(models.DBTemperature.city_id == city_id)
@@ -21,7 +23,9 @@ async def get_temperature_list(db: AsyncSession, city_id: Optional[int] = None) 
 
 
 async def get_temperature_by_id(db: AsyncSession, temperature_id: int):
-    query = select(models.DBTemperature).where(models.DBTemperature.id == temperature_id)
+    query = select(models.DBTemperature).where(
+        models.DBTemperature.id == temperature_id
+    )
     result = await db.execute(query)
     temperature = result.scalars().first()
     return temperature
@@ -35,7 +39,11 @@ async def create_temperature(db: AsyncSession, temperature: schemas.TemperatureC
     return db_temperature
 
 
-async def update_temperature(db: AsyncSession, temperature_id: int, temperature: schemas):
+async def update_temperature(
+    db: AsyncSession,
+    temperature_id: int,
+    temperature: schemas.Temperature
+):
     new_item = await get_temperature_by_id(db, temperature_id)
     if new_item:
         for key, value in temperature.dict().items():

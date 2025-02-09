@@ -27,7 +27,9 @@ async def read_city(city_id: int, db: AsyncSession = Depends(get_db)):
 
 
 @router.put("/cities/{city_id}", response_model=schemas.City)
-async def update_city(city_id: int, city: schemas.CityCreate, db: AsyncSession = Depends(get_db)):
+async def update_city(
+    city_id: int, city: schemas.CityCreate, db: AsyncSession = Depends(get_db)
+):
     updated_city = await crud.update_city(db=db, city_id=city_id, city=city)
     if not updated_city:
         raise HTTPException(status_code=404, detail="City not found")
