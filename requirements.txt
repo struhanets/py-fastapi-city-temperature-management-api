@@ -4,6 +4,7 @@ alembic==1.14.1
 annotated-types==0.7.0
 anyio==4.8.0
 asyncio==3.4.3
+black==25.1.0
 certifi==2025.1.31
 click==8.1.8
 colorama==0.4.6
@@ -26,6 +27,9 @@ mdurl==0.1.2
 mypy==1.15.0
 mypy-extensions==1.0.0
 orjson==3.10.15
+packaging==24.2
+pathspec==0.12.1
+platformdirs==4.3.6
 pydantic==2.10.6
 pydantic-extra-types==2.10.2
 pydantic-settings==2.7.1
