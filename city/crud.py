@@ -12,8 +12,10 @@ async def get_cities(db: AsyncSession):
 
 
 async def get_city_by_id(db: AsyncSession, city_id: int):
-    query = await db.select(models.DBCity).where(models.DBCity.id == city_id)
-    return query.scalars().first()
+    query = select(models.DBCity).where(models.DBCity.id == city_id)
+    result = await db.execute(query)
+    city = result.scalars().first()
+    return city
 
 
 async def create_city(db: AsyncSession, city: schemas.CityCreate):
@@ -24,7 +26,7 @@ async def create_city(db: AsyncSession, city: schemas.CityCreate):
     return new_city
 
 
-async def update_city(db: AsyncSession, city_id: int, city: schemas.CityUpdate):
+async def update_city(db: AsyncSession, city_id: int, city: schemas.CityCreate):
     city_item = await get_city_by_id(db, city_id)
     if city_item:
         for key, value in city.dict().items():
