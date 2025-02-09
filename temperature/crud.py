@@ -5,9 +5,13 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from temperature import models, schemas
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 WEATHER_API_URL = "http://api.weatherapi.com/v1/current.json"
-API_KEY = "d0eae92abc5b4efaa76144848242007"
+API_KEY = os.getenv("API_KEY")
 
 
 async def get_temperature_list(
