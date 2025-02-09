@@ -12,10 +12,6 @@ class TemperatureCreate(TemperatureBase):
     city_id: int
 
 
-class TemperatureUpdate(TemperatureBase):
-    city_id: int
-
-
 class Temperature(TemperatureBase):
     id: int
     city_id: int
