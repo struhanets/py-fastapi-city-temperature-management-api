@@ -1,8 +1,8 @@
-"""Initial tables
+"""Change temperature field to FLOAT
 
-Revision ID: b00477802a3f
+Revision ID: be302d8164a1
 Revises: 
-Create Date: 2025-02-06 16:16:02.718082
+Create Date: 2025-02-09 11:41:56.165749
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'b00477802a3f'
+revision: str = 'be302d8164a1'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -31,7 +31,7 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('city_id', sa.Integer(), nullable=True),
     sa.Column('date_time', sa.DateTime(), nullable=True),
-    sa.Column('temperature', sa.Integer(), nullable=True),
+    sa.Column('temperature', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['city_id'], ['cities.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
