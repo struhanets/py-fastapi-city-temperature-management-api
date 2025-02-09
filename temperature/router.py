@@ -8,11 +8,8 @@ from temperature import schemas, crud
 
 router = APIRouter()
 
-WEATHER_API_URL = "http://api.weatherapi.com/v1/current.json"
-API_KEY = "a88dcb6f-aedc-47fc-a2b5-38f1cfdb9046"
 
-
-@router.get("temperature/", response_model=list[schemas.Temperature])
+@router.get("/temperature/", response_model=list[schemas.Temperature])
 async def get_all_temperature(db: AsyncSession = Depends(get_db), city_id: Optional[int] = None):
     return await crud.get_temperature_list(db=db, city_id=city_id)
 
@@ -35,7 +32,7 @@ async def get_temperature(temperature_id: int, db: AsyncSession = Depends(get_db
     return new_temperature
 
 
-@router.put("temperature/{temperature_id}", response_model=schemas.Temperature)
+@router.put("/temperature/{temperature_id}", response_model=schemas.Temperature)
 async def temperature_update_data(
         temperature_id: int,
         new_temperature: schemas.TemperatureCreate,
