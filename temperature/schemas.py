@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class TemperatureBase(BaseModel):
     date_time: datetime
-    temperature: int
+    temperature: float
 
 
 class TemperatureCreate(TemperatureBase):

@@ -1,9 +1,13 @@
 from typing import Optional
 
+import httpx
 from sqlalchemy import select, desc, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from temperature import models, schemas
+
+WEATHER_API_URL = "http://api.weatherapi.com/v1/current.json"
+API_KEY = "d0eae92abc5b4efaa76144848242007"
 
 
 async def get_temperature_list(db: AsyncSession, city_id: Optional[int] = None) -> list[schemas.Temperature]:
@@ -49,3 +53,16 @@ async def delete_temperature(db: AsyncSession, temperature_id: int):
 
     await db.commit()
     return new_item
+
+
+async def get_weather(city_name: str):
+    params = {"key": API_KEY, "q": city_name, "units": "metric"}
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(WEATHER_API_URL, params=params)
+
+    if response.status_code != 200:
+        raise Exception(f"Can't get weather for {city_name}")
+
+    data = response.json()
+    return data["current"]["temp_c"]
