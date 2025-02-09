@@ -1,19 +1,26 @@
-from sqlalchemy import select
+from typing import Optional
+
+from sqlalchemy import select, desc, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from temperature import models, schemas
 
 
-async def get_temperature_list(db: AsyncSession):
+async def get_temperature_list(db: AsyncSession, city_id: Optional[int] = None) -> list[schemas.Temperature]:
     query = select(models.DBTemperature)
+    if city_id:
+        query = query.where(models.DBTemperature.city_id == city_id)
+
     result = await db.execute(query)
     temperature_list = result.scalars().all()
     return temperature_list
 
 
 async def get_temperature_by_id(db: AsyncSession, temperature_id: int):
-    query = await db.select(models.DBTemperature).where(models.DBTemperature.id == temperature_id)
-    return query.scalar().first()
+    query = select(models.DBTemperature).where(models.DBTemperature.id == temperature_id)
+    result = await db.execute(query)
+    temperature = result.scalars().first()
+    return temperature
 
 
 async def create_temperature(db: AsyncSession, temperature: schemas.TemperatureCreate):
